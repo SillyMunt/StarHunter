@@ -26,20 +26,20 @@ public class Player {
    private Texture playerTexture;
    private int x;
    private int y;
-   private int xPosition;
-   private int yPosition;
-   private int moveSpeed;
+   private float xPosition;
+   private float yPosition;
+   //private int moveSpeed;
    
    
 public Player (int x, int y, int xPosition, int yPosition, boolean isBoss) { 
    this.y = y;
    this.x = x;
-   this.xPosition = xPosition;
-   this.yPosition = yPosition;
+   this.xPosition = (float)xPosition;
+   this.yPosition = (float)yPosition;
    this.playerHitBox = new Pixmap(this.x,this.y,Pixmap.Format.RGBA8888);
    this.playerHitBox.setColor(Color.WHITE);
    this.playerHitBox.fill();
-   this.moveSpeed = 10;
+   //this.moveSpeed = 10; //unnecessary with current movement code
    
 }
 
@@ -49,26 +49,35 @@ public Texture getPlayerTexture(){
   return this.playerTexture;
 }
    
-public int getXPosition(){   
-   if(Gdx.input.isKeyPressed(Input.Keys.A)){
-       this.xPosition -= moveSpeed;
-   }else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-       this.xPosition += moveSpeed;
-   }
-   
+public float getXPosition(){   
    return xPosition;
 }
 
-public int getYPosition(){
-   if(Gdx.input.isKeyPressed(Input.Keys.W)){
-       this.yPosition += moveSpeed;
-   }else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-       this.yPosition -= moveSpeed;
-   }
-   
+    public void setxPosition(float xPosition) {
+        this.xPosition = xPosition;
+        
+        //If it goes past the screen limit, set it to edge.
+        //Currently entering camera dimensions manually, probably better way to do it.
+        if (this.xPosition>800-this.x){this.xPosition = 800-this.x;}
+        if (this.xPosition<0){this.xPosition = 0;}
+        
+        
+    }
+
+
+
+public float getYPosition(){     
    return yPosition;
 }
 
+    public void setyPosition(float yPosition) {
+        this.yPosition = yPosition;
+        
+        //If it goes past the screen limit, set it to edge.
+        //Currently entering camera dimensions manually, probably better way to do it.
+        if (this.yPosition>480-this.y){this.yPosition = 480-this.y;}
+        if (this.yPosition<0){this.yPosition = 0;}
+    }
 
-
+ 
 }
