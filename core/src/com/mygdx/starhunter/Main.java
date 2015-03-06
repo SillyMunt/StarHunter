@@ -15,7 +15,7 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		//img = new Texture("badlogic.jpg");
-                player = new Player(100,100);
+                player = new Player(32,64,100,100, false);
 	}
 
 	@Override
@@ -23,6 +23,7 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
+                batch.draw(player.getPlayerTexture(), player.getXPosition(), player.getYPosition());
 		//batch.draw(img, 0, 0);
 		batch.end();
 	}
