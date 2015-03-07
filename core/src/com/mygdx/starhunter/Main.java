@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.starhunter.theInputProcessor;
+import com.mygdx.starhunter.theInputAdapter;
 
 public class Main extends ApplicationAdapter {
 
@@ -15,7 +17,8 @@ public class Main extends ApplicationAdapter {
     Player player;
     float xPosition;
     OrthographicCamera camera;
-
+    
+    
     @Override
     public void create() {
         camera = new OrthographicCamera(); 
@@ -26,6 +29,8 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         //img = new Texture("badlogic.jpg");
         player = new Player(32, 64, 100, 100, false);
+        Gdx.input.setInputProcessor(new theInputProcessor());
+        
     }
 
     @Override
@@ -35,12 +40,14 @@ public class Main extends ApplicationAdapter {
         
         
         
+        
+              
         ////////////////////////////////////////////////////////////////////////////////////
         /////////////////////// WORKING MOVEMENT CODE!//////////////////////////////////////
         /// Really need to put this somewhere else, but i'm not quite sure how yet without breaking it.
         /// 100 movement speed seems SLOOOOOOOOOOOOOW
         /// arrow key input needed
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        /*if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 
             player.setxPosition(player.getXPosition() - 100 * Gdx.graphics.getDeltaTime());
 
@@ -58,7 +65,7 @@ public class Main extends ApplicationAdapter {
 
             player.setyPosition(player.getYPosition() + 100 * Gdx.graphics.getDeltaTime());
 
-        }
+        }*/
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,5 +75,6 @@ public class Main extends ApplicationAdapter {
         batch.draw(player.getPlayerTexture(), player.getXPosition(), player.getYPosition());
         //batch.draw(img, 0, 0);
         batch.end();
+        
     }
 }
