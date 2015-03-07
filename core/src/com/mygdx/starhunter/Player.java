@@ -28,10 +28,12 @@ public class Player {
    private int y;
    private float xPosition;
    private float yPosition;
-   //private int moveSpeed;
+   private float moveSpeed;
+   private boolean isBoss;
+   private float bossScreenPosition;
    
    
-public Player (int x, int y, int xPosition, int yPosition, boolean isBoss) { 
+public Player (int x, int y, int xPosition, int yPosition, boolean isBoss, float moveSpeed) { 
    this.y = y;
    this.x = x;
    this.xPosition = (float)xPosition;
@@ -39,45 +41,68 @@ public Player (int x, int y, int xPosition, int yPosition, boolean isBoss) {
    this.playerHitBox = new Pixmap(this.x,this.y,Pixmap.Format.RGBA8888);
    this.playerHitBox.setColor(Color.WHITE);
    this.playerHitBox.fill();
-   //this.moveSpeed = 10; //unnecessary with current movement code
-   
+   this.moveSpeed = moveSpeed;
+   this.isBoss = isBoss;
+   //this.bossScreenPosition = (800/this.x);
 }
 
 public Texture getPlayerTexture(){  
   this.playerTexture = new Texture(playerHitBox);
-  
   return this.playerTexture;
 }
-   
+/*
+public void bossMovement(){
+    if(this.isBoss){
+        for(int i = 0; i <= this.bossScreenPosition; i++){
+            this.xPosition += this.x;
+        }
+
+    }
+}
+*/
+public float getX(){
+    return x;
+}
+    
 public float getXPosition(){   
    return xPosition;
 }
 
-    public void setxPosition(float xPosition) {
-        this.xPosition = xPosition;
+public void setXPosition(float xPosition) {
+    this.xPosition = xPosition;
         
         //If it goes past the screen limit, set it to edge.
         //Currently entering camera dimensions manually, probably better way to do it.
-        if (this.xPosition>800-this.x){this.xPosition = 800-this.x;}
-        if (this.xPosition<0){this.xPosition = 0;}
-        
-        
-    }
-
-
+    if (this.xPosition>800-this.x){this.xPosition = 800-this.x;}
+    if (this.xPosition<0){this.xPosition = 0;}
+              
+}
 
 public float getYPosition(){     
    return yPosition;
 }
 
-    public void setyPosition(float yPosition) {
-        this.yPosition = yPosition;
+public void setYPosition(float yPosition) {
+    this.yPosition = yPosition;
         
         //If it goes past the screen limit, set it to edge.
         //Currently entering camera dimensions manually, probably better way to do it.
-        if (this.yPosition>480-this.y){this.yPosition = 480-this.y;}
-        if (this.yPosition<0){this.yPosition = 0;}
-    }
-
- 
+    if (this.yPosition>480-this.y){this.yPosition = 480-this.y;}
+    if (this.yPosition<0){this.yPosition = 0;}
 }
+
+public float getMoveSpeed(){
+       //Works with the Player's moveSpeed parameter to let us set how fast we want Player Entities to move.
+    return (this.moveSpeed*Gdx.graphics.getDeltaTime());
+}
+ 
+public boolean getIsBoss(){
+    return this.isBoss;
+    
+}
+
+
+
+
+}
+

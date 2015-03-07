@@ -13,19 +13,20 @@ public class Main extends ApplicationAdapter {
     SpriteBatch batch;
     Texture img;
     Player player;
+    Player boss;
     float xPosition;
     OrthographicCamera camera;
+    private boolean bossMoveRight;
+    
 
     @Override
     public void create() {
         camera = new OrthographicCamera(); 
-        //Yes, we need the camera. It adds functionality.
-        //No, I can't tell you what that functionality is.
-        //http://youtu.be/FfM_wS7qYfY?t=2m23s
         camera.setToOrtho(false, 800, 480);
         batch = new SpriteBatch();
-        //img = new Texture("badlogic.jpg");
-        player = new Player(32, 64, 100, 100, false);
+        player = new Player(32, 64, 100, 100, false, 250);
+        boss = new Player(64, 64, 0, 300, true, 50);
+        bossMoveRight = true;
     }
 
     @Override
@@ -40,25 +41,47 @@ public class Main extends ApplicationAdapter {
         /// Really need to put this somewhere else, but i'm not quite sure how yet without breaking it.
         /// 100 movement speed seems SLOOOOOOOOOOOOOW
         /// arrow key input needed
+        
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 
-            player.setxPosition(player.getXPosition() - 100 * Gdx.graphics.getDeltaTime());
+            player.setXPosition(player.getXPosition() - player.getMoveSpeed());
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 
-            player.setxPosition(player.getXPosition() + 100 * Gdx.graphics.getDeltaTime());
+            player.setXPosition(player.getXPosition() + player.getMoveSpeed());
 
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
 
-            player.setyPosition(player.getYPosition() - 100 * Gdx.graphics.getDeltaTime());
+            player.setYPosition(player.getYPosition() - player.getMoveSpeed());
 
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 
-            player.setyPosition(player.getYPosition() + 100 * Gdx.graphics.getDeltaTime());
+            player.setYPosition(player.getYPosition() + player.getMoveSpeed());
 
         }
+        
+       
+        
+        ////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////BOSS MOVEMENT LOOP////////////////////////////////////
+        if(boss.getIsBoss()){
+            if(bossMoveRight = true){
+                for(float i = 0; i < (800/boss.getX()); i++){
+                    boss.setXPosition(boss.getXPosition() + boss.getMoveSpeed());
+                }
+                bossMoveRight = false;
+            }if(bossMoveRight = false){
+                for(float i = (800/boss.getX()); i >= 0; i--){
+                    boss.setXPosition(boss.getXPosition() - boss.getMoveSpeed());
+                }
+                bossMoveRight = true;
+                
+            }
+            
+        }
+       
         ////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////
 
@@ -66,7 +89,7 @@ public class Main extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(player.getPlayerTexture(), player.getXPosition(), player.getYPosition());
-        //batch.draw(img, 0, 0);
+        batch.draw(boss.getPlayerTexture(), boss.getXPosition(), boss.getYPosition());
         batch.end();
     }
 }
