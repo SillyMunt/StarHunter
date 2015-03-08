@@ -17,11 +17,10 @@ public class Main extends ApplicationAdapter {
     float xPosition;
     OrthographicCamera camera;
     private boolean bossMoveRight;
-    
 
     @Override
     public void create() {
-        camera = new OrthographicCamera(); 
+        camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         batch = new SpriteBatch();
         player = new Player(32, 64, 100, 100, false, 250);
@@ -33,58 +32,50 @@ public class Main extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
-        
-        
+
         ////////////////////////////////////////////////////////////////////////////////////
         /////////////////////// WORKING MOVEMENT CODE!//////////////////////////////////////
         /// Really need to put this somewhere else, but i'm not quite sure how yet without breaking it.
         /// 100 movement speed seems SLOOOOOOOOOOOOOW
         /// arrow key input needed
-        
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)||Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 
-            player.setXPosition(player.getXPosition() - player.getMoveSpeed());
+            player.moveLeft();
 
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)||Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 
-            player.setXPosition(player.getXPosition() + player.getMoveSpeed());
+            player.moveRight();
+
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)||Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+
+            player.moveDown();
+
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)||Gdx.input.isKeyPressed(Input.Keys.UP)) {
+
+            player.moveUp();
 
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-
-            player.setYPosition(player.getYPosition() - player.getMoveSpeed());
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-
-            player.setYPosition(player.getYPosition() + player.getMoveSpeed());
-
-        }
-        
-       
-        
         ////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////BOSS MOVEMENT LOOP////////////////////////////////////
-        if(boss.getIsBoss()){
-            if(bossMoveRight = true){
-                for(float i = 0; i < (800/boss.getX()); i++){
-                    boss.setXPosition(boss.getXPosition() + boss.getMoveSpeed());
-                }
-                bossMoveRight = false;
-            }if(bossMoveRight = false){
-                for(float i = (800/boss.getX()); i >= 0; i--){
-                    boss.setXPosition(boss.getXPosition() - boss.getMoveSpeed());
-                }
-                bossMoveRight = true;
-                
+        
+        if (boss.getIsBoss()) {
+            if (boss.isxDirection()){
+            boss.moveRight();}
+            if (!boss.isxDirection()){
+                boss.moveLeft();
             }
-            
-        }
-       
-        ////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////
+            if (boss.isyDirection()){
+            boss.moveUp();}
+            if (!boss.isyDirection()){
+                boss.moveDown();
+            }
 
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
